@@ -83,3 +83,16 @@ a.article-title:hover {
     margin-bottom: 5px;
     margin-top: 20px;
 }
+
+.url-input {
+    margin-top: 25px;
+}
+
+.text-muted {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.btn-primary {
+    margin-top: 10px;
+}
