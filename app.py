@@ -1,6 +1,5 @@
-from crypt import methods
 from flask import Flask, render_template, request, redirect, url_for
-from pymongo import MongoClient
+from flask_pymongo import PyMongo
 import string 
 from random import choices
 
@@ -8,26 +7,31 @@ from random import choices
 app = Flask(__name__)
 
 # Create Database
+client = PyMongo(app, uri="mongodb+srv://admin:mLrwHxBFZzA78TfX@urlshortener.rtjp9.mongodb.net/urls?retryWrites=true&w=majority")
+db = client.db
 
 # Encoding Algorithm
 def url_shortener():
     chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
-    pass
+    while True:
+        random_symbols = choices(chars, k=4)
+        combo = "".join(random_symbols)
+        encoded = db.urls.find_one({"encoded": combo})
+        if not encoded:
+            return combo
 
 # Landing page - Encode
-@app.route('/', methods=["POST"])
+@app.route('/', methods=["GET", "POST"])
 def home():
     if request.method == "POST":
         original_url = request.form["url"]
-        # Check if already in MongoDB database
-        # else return short URL and store inside MongoDB
-        if not original_url:
+        retrieved_url = db.urls.find_one({"url": original_url})
+        if not retrieved_url:
             short_url = url_shortener()
-            # Insert to MongoDB
+            print(short_url)
+            db.urls.insert_one({"url": original_url, "encoded": short_url})
         else:
-            # Retrieve 'short_url' from MongoDB
-            pass
-
+            short_url = retrieved_url
         return redirect(url_for("encode", short_url=short_url))
     else:
         return render_template("home.html")
@@ -38,7 +42,7 @@ def home_decode():
     return render_template("decode.html")
 
 # Displays encoded URL upon submission
-@app.route('/encode')
+@app.route('/encode/<short_url>')
 def encode(short_url):
     return render_template("encode_result.html", short_url=short_url)
 
@@ -48,8 +52,4 @@ def decode():
     pass
 
 if __name__ == '__main__':
-    client = MongoClient("mongodb+srv://urlshortener.rtjp9.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority")
-    db = client["url-database"]
-    url = db["url"]
-    encoded_url = db["encoded_url"]
     app.run(port=5000, debug=True)
