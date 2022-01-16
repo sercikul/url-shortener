@@ -28,10 +28,9 @@ def home():
         retrieved_url = db.urls.find_one({"url": original_url})
         if not retrieved_url:
             short_url = url_shortener()
-            print(short_url)
             db.urls.insert_one({"url": original_url, "encoded": short_url})
         else:
-            short_url = retrieved_url
+            short_url = retrieved_url["encoded"]
         return redirect(url_for("encode", short_url=short_url))
     else:
         return render_template("home.html")
