@@ -99,5 +99,6 @@ a.article-title:hover {
 
 .url-text {
   background: transparent;
-  border: none
+  border: none;
+  width: 500px;
 }
