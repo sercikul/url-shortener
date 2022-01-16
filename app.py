@@ -1,3 +1,4 @@
+import re
 from flask import Flask, render_template, request, redirect, url_for
 from flask_pymongo import PyMongo
 import string 
@@ -27,27 +28,39 @@ def home():
         original_url = request.form["url"]
         retrieved_url = db.urls.find_one({"url": original_url})
         if not retrieved_url:
-            short_url = url_shortener()
+            short_tag = url_shortener()
+            short_url = "https://short.est/" + short_tag
             db.urls.insert_one({"url": original_url, "encoded": short_url})
         else:
             short_url = retrieved_url["encoded"]
-        return redirect(url_for("encode", short_url=short_url))
+            short_tag = short_url[-4:]
+        return redirect(url_for("encode", short_tag=short_tag))
     else:
         return render_template("home.html")
 
 # Landing page - Decode
-@app.route('/home_dcd')
+@app.route('/home_dcd', methods=["GET", "POST"])
 def home_decode():
-    return render_template("decode.html")
+    if request.method == "POST":
+        short_url = request.form["short_url"]
+        retrieved_short_url = db.urls.find_one({"encoded": short_url})
+        if not retrieved_short_url:
+            # Make error handling
+            print("Error")
+        else:
+            original_url = retrieved_short_url["url"]
+        return redirect(url_for("decode", original_url=original_url))
+    else:
+        return render_template("decode.html")
 
 # Displays encoded URL upon submission
-@app.route('/encode/<short_url>')
-def encode(short_url):
-    return render_template("encode_result.html", short_url=short_url)
+@app.route('/encode/<short_tag>')
+def encode(short_tag):
+    return render_template("encode_result.html", short_tag=short_tag)
 
 # Displays decoded URL upon submission
-@app.route('/decode')
-def decode():
+@app.route('/decode/<original_url>')
+def decode(original_url):
     pass
 
 if __name__ == '__main__':
