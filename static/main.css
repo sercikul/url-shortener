@@ -96,3 +96,8 @@ a.article-title:hover {
 .btn-success, .btn-secondary {
     margin-top: 10px;
 }
+
+.url-text {
+  background: transparent;
+  border: none
+}

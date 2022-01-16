@@ -33,10 +33,10 @@
 
         <div class="starter-template">
           <h1>Successfully Encoded !!</h1>
-          <p class="lead">The orignal URL has been successfully shortened for you. <br> Your decoded short URL is <b>https://short.est/{{short_url}}</b></p>
-          <p><a class="btn btn-success btn-lg" href="#" role="button"><i class="fa fa-clone" aria-hidden="true"></i>
-            Copy Link</a>
-            <a class="btn btn-secondary btn-lg" href='/' role="button">Try again!</a>
+          <p class="lead">The orignal URL has been successfully shortened for you. <br> Your decoded short URL is:  <input class="url-text" type="text" id="myURL" value="https://short.est/{{short_url}}"></p>
+          <p><button class="btn btn-success btn-lg" href="#" id="btnCopy"><i class="fa fa-clone" aria-hidden="true" id="icon"></i> Copy Link 
+            </button>
+            <a class="btn btn-secondary btn-lg" href='/' role="button">Try again !</a>
         </p>
         </div>
         
@@ -48,5 +48,17 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/JavaScript">
+      const url = document.getElementById("myURL");
+      const btnCopy = document.getElementById("btnCopy");
+  
+
+      btnCopy.onclick = function () {
+        url.select();
+        document.execCommand("Copy");
+        btnCopy.innerText = "✓ Copied to Clipboard";
+        btnCopy.style.backgroundColor = "#0000FF";
+      }
+  </script>
 </body>
 </html>
