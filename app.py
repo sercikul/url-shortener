@@ -50,7 +50,7 @@ def decode():
         short_url = request.form["shorturl"]
         retrieved_short_url = db.urls.find_one({"encoded": short_url})
         if not retrieved_short_url:
-            print("The entered short URL does not exist. Please try again !")
+            return "The entered short URL does not exist. Please try again !"
         else:
             original_url = retrieved_short_url["url"]
             url = {"url": original_url, "encoded": short_url}
