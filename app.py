@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, jsonify
 from flask_pymongo import PyMongo
 import string 
 from random import choices
@@ -33,13 +33,13 @@ def encode():
         original_url = request.form["url"]
         retrieved_url = db.urls.find_one({"url": original_url})
         if retrieved_url:
-            short_url = retrieved_url["encoded"]
-            json = {"url": original_url, "encoded": short_url}
+            short_url = str(retrieved_url["encoded"])
+            url = {"url": original_url, "encoded": short_url}
         else:
             short_url = url_shortener()
-            json = {"url": original_url, "encoded": short_url}
-            db.urls.insert_one(json)
-        return json
+            url = {"url": original_url, "encoded": short_url}
+            db.urls.insert_one(url)
+        return jsonify(url)
     else:
         return render_template("encode.html")
 
@@ -50,12 +50,11 @@ def decode():
         short_url = request.form["shorturl"]
         retrieved_short_url = db.urls.find_one({"encoded": short_url})
         if not retrieved_short_url:
-            # Make error handling
-            print("Error")
+            print("The entered short URL does not exist. Please try again !")
         else:
             original_url = retrieved_short_url["url"]
-            json = {"url": original_url, "encoded": short_url}
-            return json
+            url = {"url": original_url, "encoded": short_url}
+            return jsonify(url)
     else:
         return render_template("decode.html")
 
