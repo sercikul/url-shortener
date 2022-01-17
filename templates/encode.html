@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
         <title>URL Shortener</title>
@@ -32,14 +32,26 @@
     <main role="main" class="container">
 
         <div class="starter-template">
-          <h1>Successfully Decoded !!</h1>
-          <p class="lead">The encoded URL has been successfully decoded for you. <br> Your original URL is:  <input class="url-text" type="text" id="myURL" value="{{original_url}}"></p>
-          <p><button class="btn btn-success btn-lg" href="#" id="btnCopy"><i class="fa fa-clone" aria-hidden="true" id="icon"></i> Copy Link 
-            </button>
-            <a class="btn btn-secondary btn-lg" href='/' role="button">Try again !</a>
-        </p>
+          <h1>URL Shortener</h1>
+          <p class="lead">This web app encodes and decodes any URL in the World-Wide-Web. Have a Try.</p>
         </div>
-        
+        <div class="dropdown">
+          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+            Encode
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/encode">Encode</a>
+            <a class="dropdown-item" href="/decode">Decode</a>
+          </div>
+        </div>
+          <form class="url-input" method="post">
+            <div class="form-group">
+              <label for="exampleInputURL">URL </label>
+              <input name="url" type="url" class="form-control" id="inputURL" aria-describedby="emailHelp" placeholder="Enter URL, e.g. https://en.wikipedia.org/wiki/Turing_machine">
+              <small id="urlHelp" class="form-text text-muted">* Note that you need to add <b>https://</b> as prefix.</small>
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+          </form>
       </main>
 
 
@@ -48,17 +60,5 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/JavaScript">
-      const url = document.getElementById("myURL");
-      const btnCopy = document.getElementById("btnCopy");
-  
-
-      btnCopy.onclick = function () {
-        url.select();
-        document.execCommand("Copy");
-        btnCopy.innerText = "✓ Copied to Clipboard";
-        btnCopy.style.backgroundColor = "#0000FF";
-      }
-  </script>
 </body>
 </html>
