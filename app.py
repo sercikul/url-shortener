@@ -3,15 +3,16 @@ from flask_pymongo import PyMongo
 import string 
 from random import choices
 
-# Initialise App
+# Initialises Flask App 
 app = Flask(__name__)
 
-# Create Database
+# MongoDB API 
 client = PyMongo(app, uri="mongodb+srv://admin:mLrwHxBFZzA78TfX@urlshortener.rtjp9.mongodb.net/urls?retryWrites=true&w=majority")
 db = client.db
 
-# Encoding Algorithm
 def url_shortener():
+    """ Encoding Algorithm: Randomly combines ASCII digits and lower-, 
+    uppercase letters (k=4). Appends the combination as a tag to a fictional URL.  """
     chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
     while True:
         random_symbols = choices(chars, k=4)
@@ -21,14 +22,15 @@ def url_shortener():
         if not encoded:
             return encoded_url
 
-# Landing page
+# Landing/Home Page 
 @app.route('/')
 def home():
     return render_template("home.html")
 
-# Encode
 @app.route('/encode', methods=["GET", "POST"])
 def encode():
+    """ Encode Page: Upon POST request, checks whether submitted URL already in database. 
+    Otherwise, calls url_shortener() and stores the new short URL in MongoDB. """
     if request.method == "POST":
         original_url = request.form["url"]
         retrieved_url = db.urls.find_one({"url": original_url})
@@ -43,9 +45,10 @@ def encode():
     else:
         return render_template("encode.html")
 
-# Decode
 @app.route('/decode', methods=["GET", "POST"])
 def decode():
+    """ Decode Page: Upon POST request, function checks whether submitted short URL
+    in database. Otherwise, displays a corresponding message. """
     if request.method == "POST":
         short_url = request.form["url"]
         retrieved_short_url = db.urls.find_one({"encoded": short_url})
