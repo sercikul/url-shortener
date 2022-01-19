@@ -49,3 +49,6 @@ requests==2.27.1
 urllib3==1.26.8
 Werkzeug==2.0.2
 ```
+
+## API Unit Testing
+The `testing.py` file provides various API tests for the web app.
