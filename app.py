@@ -37,22 +37,22 @@ def encode():
             url = {"url": original_url, "encoded": short_url}
         else:
             short_url = url_shortener()
+            db.urls.insert_one({"url": original_url, "encoded": short_url})
             url = {"url": original_url, "encoded": short_url}
-            db.urls.insert_one(url)
         return jsonify(url)
     else:
         return render_template("encode.html")
 
-# Landing page - Decode
+# Decode
 @app.route('/decode', methods=["GET", "POST"])
 def decode():
     if request.method == "POST":
-        short_url = request.form["shorturl"]
+        short_url = request.form["url"]
         retrieved_short_url = db.urls.find_one({"encoded": short_url})
         if not retrieved_short_url:
             return "The entered short URL does not exist. Please try again !"
         else:
-            original_url = retrieved_short_url["url"]
+            original_url = str(retrieved_short_url["url"])
             url = {"url": original_url, "encoded": short_url}
             return jsonify(url)
     else:
