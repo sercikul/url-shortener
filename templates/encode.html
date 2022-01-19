@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
         <title>URL Shortener</title>
@@ -47,7 +47,7 @@
           <form class="url-input" method="post">
             <div class="form-group">
               <label for="exampleInputURL">URL </label>
-              <input name="url" type="url" class="form-control" id="inputURL" aria-describedby="emailHelp" placeholder="Enter URL, e.g. https://en.wikipedia.org/wiki/Turing_machine">
+              <input name="url" type="url" class="form-control" id="inputURL" aria-describedby="emailHelp" placeholder="Enter URL, e.g. https://en.wikipedia.org/wiki/Turing_machine" required>
               <small id="urlHelp" class="form-text text-muted">* Note that you need to add <b>https://</b> as prefix.</small>
             </div>
             <button type="submit" class="btn btn-success">Submit</button>
